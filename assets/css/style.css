@@ -1,0 +1,12 @@
+html, body, {
+  height: 100%;
+  width: 100%;
+}
+
+.navbar {margin-bottom:0;}
+
+.no-padding{padding:0;}
+.bootstrap-switch{margin:0 5px 5px 0;}
+
+.sidebar{padding:0;}
+.mobile-menu{color:#FFF; border-color: #FFF;}

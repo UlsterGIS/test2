@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=7,IE=9">   
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>REConnect</title>
+  
+  <!-- ArcGIS API for JavaScript CSS--> 
+  <link rel="stylesheet" href="http://js.arcgis.com/3.10/js/dojo/dijit/themes/claro/claro.css">  
+  <link rel="stylesheet" href="//js.arcgis.com/3.10/js/esri/css/esri.css">
+  
+  <!-- Web Framework CSS - Bootstrap --> 
+ <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">  
+  
+  <!-- Bootstrap Map from ESRI -->
+  <link rel="stylesheet" href="//esri.github.io/bootstrap-map-js/src/css/bootstrapmap.css">
+  
+  <link rel="stylesheet" href="assets/css/bootstrap-switch.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+  <div class = "navbar navbar-inverse navbar-static-top">
+    <div class = "container">
+      
+      <a class = "navbar-brand">REConnect</a>
+      
+      
+      
+      
+      <button class = "navbar-toggle" data-toggle = "collapse" data-target=".navSmCollapse">
+        <span class = "glyphicon glyphicon-align-justify mobile-menu"></span>
+      </button>
+      
+      <button class = "navbar-toggle visible-xs" onclick="$('#MapLayersModal').modal('show'); return false;">
+        <span class = "glyphicon glyphicon-tasks mobile-menu"></span>
+      </button>
+      
+      <div class = "collapse navbar-collapse navLrgCollapse">
+        <ul class = "nav navbar-nav navbar-right">
+          <li><a href="#sidebar-MapLayers" data-toggle="collapse"><button class = "btn btn-default btn-sm">Map Layers</button></a></li>
+          <li><a href="#sidebar-Measure" data-toggle="collapse"><button class = "btn btn-default btn-sm">Measure</button></a></li>
+          <li><a href="#sidebar-Search" data-toggle="collapse"><button class = "btn btn-default btn-sm">Search</button></a></li>
+          <li><a href="#"><button class = "btn btn-default btn-sm" onclick="$('#HelpModal').modal('show'); return false;">Help</button></a></li> 
+          <li><a href="#"><button class = "btn btn-default btn-sm" onclick="$('#AboutModal').modal('show'); return false;">About</button></a></li>                   
+        </ul>
+      </div><!-- End navLrgCollapse -->      
+    </div> <!-- End Container -->
+    
+  </div>
+      <div class = "container visible-xs">
+        <div class = "collapse navbar-inverse navbar-collapse navSmCollapse" id="navSmCollapse">
+          <ul class = "nav navbar-nav navbar-right">
+            <li><a onclick="$('#navSmCollapse').collapse('hide'); $('#MapLayersModal').modal('show'); return false;">Map Layers</a></li>
+            <li><a onclick="$('#navSmCollapse').collapse('hide'); $('#SearchModal').modal('show'); return false;">Search</a></li>
+            <li><a onclick="$('#navSmCollapse').collapse('hide'); $('#HelpMobileModal').modal('show'); return false;">Help</a></li>
+            <li><a onclick="$('#navSmCollapse').collapse('hide'); $('#AboutModal').modal('show'); return false;">About</a></li>
+          </ul>
+        </div><!-- End navSmCollapse -->
+      </div>
+  
+  <div class="container-fluid main">
+    <div class="row row-map">
+      <div class="hidden-xs col-sm-3 sidebar">
+        <div class="panel-group" id="sidebar-accordion">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#sidebar-accordion" href="#sidebar-MapLayers">
+                  Map Layers
+                </a>
+              </h4>
+            </div>
+            <div id="sidebar-MapLayers" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <div class="make-switch"><input type="checkbox" name="railtrails" checked>Rail Trails</div>
+                <div class="make-switch"><input type="checkbox" name="swimming" unchecked>Swimming</div>
+                <div class="make-switch"><input type="checkbox" name="boating" unchecked>Boating</div>
+                <div class="make-switch"><input type="checkbox" name="camping" unchecked>Camping</div>
+                <div class="make-switch"><input type="checkbox" name="rockclimbing" unchecked>Rock Climbing</div>
+                <div class="make-switch"><input type="checkbox" name="parking" unchecked>Parking</div>
+                
+                <div class="panel-group" id="MapLayerAccordion">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#MapLayerAccordion" href="#TrailsAccordion">Trails &amp; Routes</a>
+                      </h4>
+                    </div>
+                    <div id="TrailsAccordion" class="panel-collapse collapse">
+                      <div class="panel-body">
+                        <div class="make-switch"><input type="checkbox" name="trailheads" unchecked>Trailheads</div>
+                        <div class="make-switch"><input type="checkbox" name="hikingtrails" unchecked>Hiking Trails</div>          
+                        <div class="make-switch"><input type="checkbox" name="bikeroutes" unchecked>Bike Routes</div>
+                        <div class="make-switch"><input type="checkbox" name="crosscountry" unchecked>Cross-Country Ski</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#MapLayerAccordion" href="#FishingAccordion">Fishing</a>
+                      </h4>
+                    </div>
+                    <div id="FishingAccordion" class="panel-collapse collapse">
+                      <div class="panel-body">
+                        <div class="make-switch"><input type="checkbox" name="fishingaccess" unchecked>Fishing Access Sites</div>
+                        <div class="make-switch"><input type="checkbox" name="publicrights" unchecked>Public Fishing Rights</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#MapLayerAccordion" href="#PointsInterestAccordion">Points of Interest</a>
+                      </h4>
+                    </div>
+                    <div id="PointsInterestAccordion" class="panel-collapse collapse">
+                      <div class="panel-body">
+                        <div class="make-switch"><input type="checkbox" name="birdwatching" unchecked>Bird Watching</div>
+                        <div class="make-switch"><input type="checkbox" name="waterfalls" unchecked>Waterfalls</div>
+                        <div class="make-switch"><input type="checkbox" name="notablepeaks" unchecked>Notable Peaks</div>
+                        <div class="make-switch"><input type="checkbox" name="lighthouses" unchecked>Lighthouses</div>
+                        <div class="make-switch"><input type="checkbox" name="firetowers" unchecked>Fire Towers</div>
+                        <div class="make-switch"><input type="checkbox" name="coveredbridges" unchecked>Covered Bridges</div>
+                        <div class="make-switch"><input type="checkbox" name="touristinfo" unchecked>Tourist Info Kiosk</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#MapLayerAccordion" href="#AttractionsAccordion">Attractions</a>
+                      </h4>
+                    </div>
+                    <div id="AttractionsAccordion" class="panel-collapse collapse">
+                      <div class="panel-body">
+                        <div class="make-switch"><input type="checkbox" name="scenicbyways" unchecked>Scenic Byways</div>
+                        <div class="make-switch"><input type="checkbox" name="historicdistricts" unchecked>Historic Districts</div>
+                        <div class="make-switch"><input type="checkbox" name="golfcourses" unchecked>Golf Courses</div>
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- End of Sub Layer Accordions -->  
+              </div>
+            </div><!-- End of Map Layer Accordion -->  
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#sidebar-accordion" href="#sidebar-Measure">Measurement</a>
+              </h4>
+            </div>
+            <div id="sidebar-Measure" class="panel-collapse collapse">
+              <div class="panel-body">
+                <p>To measure:<br>
+                <strong>Select a tool</strong> below (area or length)<br><br>
+                
+                Then on the map:<br>
+                <strong>Single-click</strong> to <strong>Start</strong> measurement<br>
+                <strong>Double-click</strong> to <strong>End</strong> measurement</p>
+                <div id="measurementDiv"></div>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#sidebar-accordion" href="#sidebar-Search">Search</a>
+              </h4>
+            </div>
+            <div id="sidebar-Search" class="panel-collapse collapse">
+              <div class="panel-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+              </div>
+            </div>
+          </div>
+        </div>
+        
+          
+      
+      </div> <!-- End of Sidebar Column -->
+      
+      <div class="col-xs-12 col-sm-9 no-padding">
+        <div id="mapDiv"></div>
+      </div>
+    </div> <!-- Row -->    
+  </div> <!-- End Main Container -->
+  
+  <div class="modal fade" id="MapLayersModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Map Layers</h4>
+        </div>
+        <div class="modal-body">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">Map Layers</h4>
+            </div>
+            <div id="collapseModalOne" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <div class="make-switch"><input type="checkbox" name="railtrails" unchecked>Rail Trails</div>
+                <div class="make-switch"><input type="checkbox" name="swimming" unchecked>Swimming</div>
+                <div class="make-switch"><input type="checkbox" name="boating" unchecked>Boating</div>
+                <div class="make-switch"><input type="checkbox" name="camping" unchecked>Camping</div>
+                <div class="make-switch"><input type="checkbox" name="rockclimbing" unchecked>Rock Climbing</div>
+                <div class="make-switch"><input type="checkbox" name="parking" unchecked>Parking</div>
+                
+                <div class="panel-group" id="collapseModal">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#ModalAccordion" href="#TrailsModalAccordion">Trails &amp; Routes</a>
+                      </h4>
+                    </div>
+                    <div id="TrailsModalAccordion" class="panel-collapse collapse">
+                      <div class="panel-body">
+                        <div class="make-switch"><input type="checkbox" name="trailheads" unchecked>Trailheads</div>
+                        <div class="make-switch"><input type="checkbox" name="hikingtrails" unchecked>Hiking Trails</div>          
+                        <div class="make-switch"><input type="checkbox" name="bikeroutes" unchecked>Bike Routes</div>
+                        <div class="make-switch"><input type="checkbox" name="crosscountry" unchecked>Cross-Country Ski</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#ModalAccordion" href="#FishingModalAccordion">Fishing</a>
+                      </h4>
+                    </div>
+                    <div id="FishingModalAccordion" class="panel-collapse collapse">
+                      <div class="panel-body">
+                        <div class="make-switch"><input type="checkbox" name="fishingaccess" unchecked>Fishing Access Sites</div>
+                        <div class="make-switch"><input type="checkbox" name="publicrights" unchecked>Public Fishing Rights</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#ModalAccordion" href="#PointsInterestModalAccordion">Points of Interest</a>
+                      </h4>
+                    </div>
+                    <div id="PointsInterestModalAccordion" class="panel-collapse collapse">
+                      <div class="panel-body">
+                        <div class="make-switch"><input type="checkbox" name="birdwatching" unchecked>Bird Watching</div>
+                        <div class="make-switch"><input type="checkbox" name="waterfalls" unchecked>Waterfalls</div>
+                        <div class="make-switch"><input type="checkbox" name="notablepeaks" unchecked>Notable Peaks</div>
+                        <div class="make-switch"><input type="checkbox" name="lighthouses" unchecked>Lighthouses</div>
+                        <div class="make-switch"><input type="checkbox" name="firetowers" unchecked>Fire Towers</div>
+                        <div class="make-switch"><input type="checkbox" name="coveredbridges" unchecked>Covered Bridges</div>
+                        <div class="make-switch"><input type="checkbox" name="touristinfo" unchecked>Tourist Info Kiosk</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#ModalAccordion" href="#AttractionsModalAccordion">Attractions</a>
+                      </h4>
+                    </div>
+                    <div id="AttractionsModalAccordion" class="panel-collapse collapse">
+                      <div class="panel-body">
+                        <div class="make-switch"><input type="checkbox" name="scenicbyways" unchecked>Scenic Byways</div>
+                        <div class="make-switch"><input type="checkbox" name="historicdistricts" unchecked>Historic Districts</div>
+                        <div class="make-switch"><input type="checkbox" name="golfcourses" unchecked>Golf Courses</div>
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- End of Sub Layer Accordions -->  
+              </div>
+            </div><!-- End of Map Layer Accordion -->  
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  
+  <div class="modal fade" id="SearchModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Search</h4>
+        </div>
+        <div class="modal-body">
+          <p>Search box and info</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  
+  <div class="modal fade" id="HelpModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Help</h4>
+        </div>
+        <div class="modal-body">
+          <p>Help Body</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  
+  <div class="modal fade" id="HelpMobileModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Help</h4>
+        </div>
+        <div class="modal-body">
+          <p>Help Body</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  
+  <div class="modal fade" id="WelcomeModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Welcome to Ulster County Recreation Map</h4>
+        </div>
+        <div class="modal-body">
+          <p>Ulster County is rich in recreational resources. In fact, roughly one-third of the lands and waters of Ulster County are publicly-accessible for recreation. Ulster County REConnect includes the lands and waters of Ulster County that are open for enjoyment and exploration by the public, and much, much more. For the first time ever, all of this information is available online - in one place, and free of charge.</p>
+          <p>The purpose of this interactive mapping tool is to strengthen the connection between Ulster County residents and visitors to the fabulous recreational opportunities that exist throughout Ulster County, NY. It is our hope that Ulster County REConnect will also encourage our residents to enjoy a healthy and active lifestyle by learning about and ultimately making continued use of the ample opportunities and assets that the county is so fortunate to have.</p>
+          <p>For additional information on any of the recreational features on the map, just double click on the icon and additional information will be displayed.</p>
+          <p>We hope that you will enjoy using Ulster County REConnect whether you are a resident of or visitor to our region. We encourage you get outdoors and explore our recreational resources firsthand... don't just take our word for it!</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  
+  <div class="modal fade" id="AboutModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Welcome to the REConnect!</h4>
+          </div>
+          <div class="modal-body">
+            <ul class="nav nav-tabs" id="aboutTabs">
+              <li><a href="#about" data-toggle="tab">About the project</a></li>
+              <li><a href="#usernotice" data-toggle="tab">User Notice</a></li>
+            </ul>
+            
+            <div class="tab-content" id="aboutTabsContent" style="padding-top: 10px;">             
+              <div class="tab-pane fade active in" id="about">
+                <div class="container-fluid">
+                  <img class = "center-block img-responsive" src="assets/img/FlyFishing2.jpg">
+                </div>
+                
+                <p>Ulster County REConnect evolved out of the production of a printed recreation map enclosed with the 2011 Ulster County Tourism Travel Guide. This initiative is a joint effort between Ulster County Department of Information Services and the Department of the Environment.</p>
+                
+                <p>Ulster County REConnect is not possible without many agencies and organizations that graciously provided us with their data. Those groups are: Esopus Creek Conservancy, Finger Lakes Trail Conference, Frost Valley YMCA, Mohonk Preserve, New York / New Jersey Trail Conference, NYC Department of Environmental Protection, NYS Department of Environmental Conservation, NYS Office of Parks Recreation and Historic Preservation, Scenic Hudson, Ulster County Planning Department and the Ulster County Transportation Council.</p>
+              </div>
+              
+              <div id="usernotice" class="tab-pane fade text-danger">
+                <p>Information contained herein is provided for informational purposes only. Ulster County provides geographic information systems (GIS) data with no claim as to the completeness, usefulness, or accuracy of its content, positional or otherwise.</p>
+
+                <p>The Ulster County REConnect application is designed to be used for the planning of recreational activities. The users should be aware of all rules and regulations relevant to recreational activities that are accessible through this application. Outdoor activities are potentially hazardous. There is always the possibility of personal injury or even death. It is the user's responsibility to understand and accept the risks involved and to take adequate precautions against them. Although care is taken to provide accurate information on UC RECconnect, this cannot ever be a substitute for thorough research, planning and judgement with regards to a particular outdoor activity.</p>
+              </div>
+              
+              
+              
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="assets/js/bootstrap-switch.min.js"></script>
+  
+  
+  <!-- ArcGIS API for JavaScript library references   -->
+  <script type="text/javascript">
+    var package_path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+    var dojoConfig = {
+      //The location.pathname.replace() logic below may look confusing but all its doing is
+      // enabling us to load the api from a CDN and load local modules from the correct location.
+      packages: [{
+          name: "application",
+          location: package_path + '/assets/js'
+      }]
+    };
+  </script>
+  
+  <script src="//js.arcgis.com/3.10compact"></script>
+  <script src="assets/js/functions.js"></script>
+  
+  
+</body>
+    
+    
+</html>
